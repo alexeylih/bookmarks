@@ -6,21 +6,18 @@ function UsersCtrl($scope, Session) {"use strict";
         .then(function(response) {
             if (!response) {
                 $scope.authError = 'Credentials are not valid';
-            } else {
-                $scope.authError = 'Success!';
-            }
+            } 
         }, function(response) {
             $scope.authError = 'Server offline, please try later';
         });
     };
 
-    $scope.logout = function(user) {
-
+    $scope.logout = function() {
+        Session.logout('/');
     };
 
     $scope.register = function(user) {
         $scope.authError = null;
-
         Session.register(user.email, user.password, user.confirm_password)
             .then(function(response) {
                console.log(response);

@@ -7,12 +7,8 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def create
     @user = User.create(user_params)
-    if @user.valid?
-      sign_in(@user)
-      respond_with @user, :location => api_users_path
-    else
-      respond_with @user.errors, :location => api_users_path
-    end
+    sign_in(@user) if @user.valid?
+    respond_with @user, :location => api_users_path
   end
 
   def update

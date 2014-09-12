@@ -6,4 +6,8 @@ function AppCtrl($scope, Session) {"use strict";
         console.log('authenticated');
     });
 
+    $scope.isAuthenticated = function() {
+        return Session.isAuthenticated();
+    };
+
 }

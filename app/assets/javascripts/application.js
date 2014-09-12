@@ -7,6 +7,7 @@
 //= require services/sessionService
 //= require controllers/app
 //= require controllers/users
+//= require controllers/bookmarks
 
 angular.module('bookmarksApp', ['sessionService', '$strap.directives'])
   .config(['$httpProvider', function($httpProvider){
@@ -14,7 +15,6 @@ angular.module('bookmarksApp', ['sessionService', '$strap.directives'])
 
         var interceptor = ['$location', '$rootScope', '$q', function($location, $rootScope, $q) {
             function success(response) {
-                console.log(response);
                 return response
             };
 

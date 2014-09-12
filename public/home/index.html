@@ -1,7 +1,37 @@
 <div class="jumbotron">
-    <h1>Bookmarks</h1>
+	<h1>Bookmarks</h1>
+
+
+	<a class="btn btn-large btn-success" ng-show="!isAuthenticated()" href="/#/users/login">Login</a>
+
+	<div ng-controller="UsersCtrl">
+		<a class="btn btn-primary" ng-show="isAuthenticated()" ng-click="logout()">Logout</a>
+	</div>
+
+	<div ng-controller="BookmarksCtrl">
+
+	<div id="bookmarks-input">
+		<input type="text" ng-model="urlToAdd" type="text" />
+		<button type="button" class="btn btn-primary btn-sm" ng-click="addUrl()">Add</button>
+	<div>
+
+
+	<div id="bookmarks-data">
+		<p>Bookmarks list:</p>
+		<table class="table table-bordered">
+			<tr ng-repeat="bookmark in bookmarks">
+				<td>{{bookmark.url}}</td>
+			</tr>
+		</table>    	
+	</div>
+
+	</div>
+
+
 </div>
 
-<hr>
+
+
+
 
 

@@ -61,6 +61,8 @@ Application.routes.draw do
       end
 
       resources :users, only: [:create]
+      resources :bookmarks
+
       match '/users' => 'users#show', :via => :get
       match '/users' => 'users#update', :via => :put
       match '/users' => 'users#destroy', :via => :delete
