@@ -7,7 +7,6 @@ class Api::V1::BookmarksController < ApplicationController
 	end
 
 	def show
-
 	end
 
 	def create
@@ -22,7 +21,8 @@ class Api::V1::BookmarksController < ApplicationController
 	end
 
 	def destroy
-	end
+    	respond_with :api, Bookmark.where(id: params[:id].split(',')).destroy_all
+  	end
 
 	private
 

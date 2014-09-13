@@ -7,28 +7,37 @@
 	<div ng-controller="UsersCtrl">
 		<a class="btn btn-primary" ng-show="isAuthenticated()" ng-click="logout()">Logout</a>
 	</div>
+</div>
 
-	<div ng-controller="BookmarksCtrl">
+<div ng-controller="BookmarksCtrl">
 
-	<div id="bookmarks-input">
-		<input type="text" ng-model="urlToAdd" type="text" />
-		<button type="button" class="btn btn-primary btn-sm" ng-click="addUrl()">Add</button>
-	<div>
+	<div class="row" id="bookmarks-input">
+		<div class="span4">
+			<input type="text" ng-model="urlToAdd" type="text" />
+			<button type="button" class="btn btn-primary btn-sm" ng-click="addUrl()">Add</button>	
+		</div>
+	</div>
 
 
 	<div id="bookmarks-data">
-		<p>Bookmarks list:</p>
+		<h3>Bookmarks list:</h3>
 		<table class="table table-bordered">
+
 			<tr ng-repeat="bookmark in bookmarks">
+				<td><input type="checkbox" ng-click="toggleSelection($index)"></td>
 				<td>{{bookmark.url}}</td>
+				<td><a ng-click="removeUrl($index)">Remove</a></td>
 			</tr>
+
 		</table>    	
-	</div>
+
+		<div class="row">
+			<div class="span2"><a ng-click="removeSelectedUrls()">Remove all selected</a></div>
+		</div>
 
 	</div>
 
 
-</div>
 
 
 
