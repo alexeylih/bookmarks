@@ -1,5 +1,6 @@
 angular.module('sessionService', [])
     .factory('Session', function($location, $http, $q) {
+        // Redirect to the given url (defaults to '/')
         function redirect(url) {
             url = url || '/';
             $location.path(url);
@@ -10,7 +11,7 @@ angular.module('sessionService', [])
                     .then(function(response) {
                         service.currentUser = response.data.user;
                         if (service.isAuthenticated()) {
-                            redirect('/');
+                            $location.path('/');
                         }
                     });
             },
@@ -19,7 +20,7 @@ angular.module('sessionService', [])
                 $http.delete('/api/sessions').then(function(response) {
                     $http.defaults.headers.common['X-CSRF-Token'] = response.data.csrfToken;
                     service.currentUser = null;
-                    redirect(redirectTo);
+                    redirect('/users/login');
                 });
             },
 
@@ -28,7 +29,7 @@ angular.module('sessionService', [])
                 .then(function(response) {
                     service.currentUser = response.data;
                     if (service.isAuthenticated()) {
-                        redirect('/');
+                        $location.path('/');
                     }
                 });
             },

@@ -19,6 +19,9 @@ gem 'twitter-bootstrap-rails'
 gem 'nokogiri'
 gem 'devise', '~> 3.2'
 gem 'json'
+gem 'resque', :require => 'resque/server'
+gem 'sucker_punch'
+gem 'youtube_it'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.0'

@@ -41,6 +41,16 @@ body {
     padding: 14px 24px;
 }
 
+.loader {
+    font-size: 20px;
+    color: DarkSlateBlue;
+}
+
+.add-edit {
+    margin-top:10px;
+}
+
+
 /* Supporting marketing content */
 .marketing {
     margin: 60px 0;

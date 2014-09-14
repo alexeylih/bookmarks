@@ -4,12 +4,13 @@
 //= require bootstrap.min
 //= require angular-strap.min
 //= require angular-resource
+//= require angular-route.min
 //= require services/sessionService
 //= require controllers/app
 //= require controllers/users
 //= require controllers/bookmarks
 
-angular.module('bookmarksApp', ['sessionService', '$strap.directives'])
+angular.module('bookmarksApp', ['sessionService', '$strap.directives', 'ngRoute'])
   .config(['$httpProvider', function($httpProvider){
         $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
 

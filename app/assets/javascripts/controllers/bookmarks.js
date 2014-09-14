@@ -1,4 +1,4 @@
-function BookmarksCtrl($scope, $http, $attrs) {
+function BookmarksCtrl($scope, $http, $attrs, $interval) {
     $scope.bookmarks = [];
     getBookmarks();
 
@@ -16,19 +16,31 @@ function BookmarksCtrl($scope, $http, $attrs) {
         if (!this.urlToAdd)
             return;
 
-        var url_to_post = this.urlToAdd;
+        var tmpUrlToAdd = this.urlToAdd;
         this.urlToAdd = "";
 
         $http({
             method: 'POST',
             url: "/api/bookmarks/",
-            data: $.param({url: url_to_post}),
+            data: $.param({url: tmpUrlToAdd}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-        .then(function(response){
-            $scope.bookmarks.push(response.data);
-        }, function(response){
-            alert("Failed to add url: " + response.data.errors);
-        })
+            .then(function(response){
+
+                var bookmark = response.data;
+                if (bookmark.type == "YoutubeBookmark"){
+                    bookmark.loadingPromise = $interval(function() { getYoutubeBookmarkInfo(bookmark.id) }, 1000);
+                    bookmark.isLoading = true;
+                }
+
+                $scope.bookmarks.push(bookmark);
+
+            }, function(response){
+                // todo: better error handling
+                if (response.data.errors['url'])
+                    alert("Failed to add url: " + response.data.errors['url']); 
+                else
+                    alert("Failed to add url"); 
+            })
     };
 
     $scope.removeUrl = function(bookmarkIndex) {
@@ -53,24 +65,41 @@ function BookmarksCtrl($scope, $http, $attrs) {
     $scope.removeSelectedUrls = function() {
         var selectedBookmarkIds = [];
         var newBookmarks = [];
-        
-    // build selected Id's array and non-selected bookmarks for the new model
-    for (var i=0; i < $scope.bookmarks.length; i++){
-        if ($scope.bookmarks[i].isSelected)
-        {
-            selectedBookmarkIds.push($scope.bookmarks[i].id);
+
+        // build selected Id's array and non-selected bookmarks for the new model
+        for (var i=0; i < $scope.bookmarks.length; i++){
+            if ($scope.bookmarks[i].isSelected){
+                selectedBookmarkIds.push($scope.bookmarks[i].id);
+            }
+            else {
+                newBookmarks.push($scope.bookmarks[i]);
+            }
         }
-        else
-        {
-            newBookmarks.push($scope.bookmarks[i]);
+        if (selectedBookmarkIds.length > 0) {
+            $scope.bookmarks = newBookmarks;
+            deleteBookmarks(selectedBookmarkIds.join());    
         }
-    }
+    };
 
-    $scope.bookmarks = newBookmarks;
-
-    deleteBookmarks(selectedBookmarkIds.join());
-};
-
+    function getYoutubeBookmarkInfo(id) {
+        return $http.get('/api/bookmarks/'+id).then(function (response) {
+            var updatedBookmark = response.data;
+            if (updatedBookmark.title != ""){
+                for (var i=0; i < $scope.bookmarks.length; i++){
+                    if ($scope.bookmarks[i].id == updatedBookmark.id){
+                        //cancel timer after item was updated
+                        $interval.cancel($scope.bookmarks[i].loadingPromise);
+                        $scope.bookmarks[i] = updatedBookmark;
+                        $scope.bookmarks[i].isLoading = false;
+                    }
+                }
+            }
+        },
+        function (response) {
+            alert("Failed to retrieve youtube data")
+        });
+    };  
+    
 
 }
 
