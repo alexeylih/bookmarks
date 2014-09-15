@@ -20,11 +20,12 @@ gem 'nokogiri'
 gem 'devise', '~> 3.2'
 gem 'json'
 gem 'resque', :require => 'resque/server'
+gem 'resque-scheduler'
 gem 'sucker_punch'
 gem 'youtube_it'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.0'
+  gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '4.2.1'
   gem 'rspec_api_documentation'
   gem 'better_errors'

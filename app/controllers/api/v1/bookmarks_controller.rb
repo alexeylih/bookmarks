@@ -1,10 +1,7 @@
-require 'net/http'
-require 'youtube_it'
-
 class Api::V1::BookmarksController < ApplicationController
 	respond_to :json
 	before_filter :authenticate_user!
-	skip_before_filter :verify_authenticity_token
+	protect_from_forgery :except => [:delete, :create]
 
 
 	def index
