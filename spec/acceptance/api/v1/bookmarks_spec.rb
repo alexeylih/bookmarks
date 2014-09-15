@@ -59,6 +59,30 @@ resource 'Bookmark' do
 		end
 	end
 
+
+	get "/api/bookmarks/:id" do
+		include Warden::Test::Helpers
+
+		let(:bookmarks_owner) { create(:user) }
+		let(:url) { "https://www.wendys.com" }
+		
+		before (:each) do
+      		login_as bookmarks_owner, scope: :user
+    	end
+
+    	example "Getting a single bookmark by id" do
+    		bookmark = create(:bookmark, user: bookmarks_owner, url: url)
+			do_request(id: bookmark.id)
+    		expect(status).to eq 200
+    	end
+
+    	example "Getting a single bookmark by non exisiting id" do
+    		bookmark = create(:bookmark, user: bookmarks_owner, url: url)
+			do_request(id: bookmark.id + 1)
+    		expect(status).to eq 404
+    	end
+	end
+
 	post "/api/bookmarks" do
 		include Warden::Test::Helpers
 		parameter :url, "url", required: true
@@ -108,21 +132,26 @@ resource 'Bookmark' do
 	delete "/api/bookmarks/:id" do
 		include Warden::Test::Helpers
 
+		let(:bookmarks_owner) { create(:user) }
+		
 		before (:each) do
-      		login_as user, scope: :user
-    	end		
+      		login_as bookmarks_owner, scope: :user
+    	end
 
     	example "Deleting a single bookmark" do
-    		bookmark = create(:bookmark)
+    		bookmark = create(:bookmark, user: bookmarks_owner)
 			do_request(id: bookmark.id)
     		expect(status).to eq 204
+    		expect(Bookmark.all.count).to eq 0
     	end
 
     	example "Deleting multiple bookmarks, with coma separted id's" do
-    		bookmarks = create_list(:bookmark, 10)
+    		bookmarks = create_list(:bookmark, 5, user: bookmarks_owner)
 
 			do_request(id: bookmarks.map {|b| b.id}.join(','))
     		expect(status).to eq 204
+    		expect(Bookmark.all.count).to eq 0
+
     	end
 
 	end

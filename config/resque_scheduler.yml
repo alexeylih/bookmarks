@@ -1,0 +1,5 @@
+mark_removed_job:
+  every: 10s
+  class: MarkRemovedVideosJob
+  args:
+  description: Marks youtube removed videos

@@ -20,7 +20,7 @@ gem 'nokogiri'
 gem 'devise', '~> 3.2'
 gem 'json'
 gem 'resque', :require => 'resque/server'
-gem 'resque-scheduler'
+gem 'resque-scheduler', '~> 2.5.5'
 gem 'sucker_punch'
 gem 'youtube_it'
 
