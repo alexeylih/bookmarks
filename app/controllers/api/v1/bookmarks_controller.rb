@@ -20,7 +20,7 @@ class Api::V1::BookmarksController < ApplicationController
 			@bookmark.load_extra_info
 			respond_with @bookmark, :location => api_bookmarks_path
 		else        
-			render :json => { :errors => @bookmark.errors }, :status => 433  
+			render :json => { :errors => @bookmark.errors }, :status => 422  
 		end
 	end
 

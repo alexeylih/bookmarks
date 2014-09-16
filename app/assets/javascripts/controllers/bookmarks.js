@@ -1,4 +1,4 @@
-function BookmarksCtrl($scope, $http, $attrs, $interval) {
+function BookmarksCtrl($scope, $http, $interval) {
     $scope.bookmarks = [];
     getBookmarks();
 
@@ -21,7 +21,7 @@ function BookmarksCtrl($scope, $http, $attrs, $interval) {
 
         $http({
             method: 'POST',
-            url: "/api/bookmarks/",
+            url: '/api/bookmarks/',
             data: $.param({url: tmpUrlToAdd}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
             .then(function(response){
@@ -37,7 +37,7 @@ function BookmarksCtrl($scope, $http, $attrs, $interval) {
             }, function(response){
                 // todo: better error handling
                 if (response.data.errors['url'])
-                    alert("Failed to add url: " + response.data.errors['url']); 
+                    alert("Failed to add url, invalid url"); 
                 else
                     alert("Failed to add url"); 
             })

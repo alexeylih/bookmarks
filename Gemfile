@@ -30,6 +30,7 @@ group :development, :test do
   gem 'rspec_api_documentation'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'jasmine'
 end
 
 group :test do
