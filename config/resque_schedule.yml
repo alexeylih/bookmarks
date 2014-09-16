@@ -1,5 +1,0 @@
-do_my_job:
-  every: 30s
-  class: MyJob
-  args:
-  description: Marks youtube removed videos
