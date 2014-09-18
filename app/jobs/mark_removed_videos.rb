@@ -4,6 +4,7 @@ class MarkRemovedVideosJob
   def self.perform
   	YoutubeBookmark.where(removed: false).each do |bookmark|
 		begin
+			sleep 2
 			YouTubeIt::Client.new.video_by(bookmark.url)
 		rescue Exception => e
 		  	if e.to_s == "403" #Forbidden 
