@@ -7,6 +7,7 @@ class Api::V1::BaseController < ActionController::Base
 
   rescue_from Exception, with: :generic_exception
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, :with => :unprocessable_entity
 
   private
 
@@ -19,6 +20,12 @@ class Api::V1::BaseController < ActionController::Base
   def generic_exception(error)
     respond_to do |format|
       format.json { render :json => {:error => error.message}, :status => 500 }
+    end
+  end
+
+  def unprocessable_entity(error)
+    respond_to do |format|
+      format.json { render :json => {:error => error.message}, :status => 422 }
     end
   end
 end

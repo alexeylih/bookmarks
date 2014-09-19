@@ -16,12 +16,9 @@ class Api::V1::BookmarksController < ApplicationController
 		@bookmark = BookmarkFactory.create(params[:url])
 		@bookmark.user = current_user
 		
-		if @bookmark.save
-			@bookmark.load_extra_info
-			respond_with @bookmark, :location => api_bookmarks_path
-		else        
-			render :json => { :errors => @bookmark.errors }, :status => 422  
-		end
+		@bookmark.save!
+		@bookmark.load_extra_info
+		respond_with @bookmark, :location => api_bookmarks_path
 	end
 
 	def destroy

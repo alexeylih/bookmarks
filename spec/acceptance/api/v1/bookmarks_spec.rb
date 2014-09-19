@@ -125,7 +125,7 @@ resource 'Bookmark' do
     	end
 
 		example_request "Creating new bookmark with invalid url" do
-			expect(status).to eq 433
+			expect(status).to eq 422
 		end
 	end
 
