@@ -1,7 +1,7 @@
 class Api::V1::BookmarksController < ApplicationController
 	respond_to :json
 	before_filter :authenticate_user!
-	protect_from_forgery :except => [:delete, :create]
+	#protect_from_forgery :except => [:destroy, :create]
 
 
 	def index
@@ -15,7 +15,6 @@ class Api::V1::BookmarksController < ApplicationController
 	def create
 		@bookmark = BookmarkFactory.create(params[:url])
 		@bookmark.user = current_user
-		
 		@bookmark.save!
 		@bookmark.load_extra_info
 		respond_with @bookmark, :location => api_bookmarks_path

@@ -12,7 +12,7 @@
 
 angular.module('bookmarksApp', ['sessionService', '$strap.directives', 'ngRoute'])
   .config(['$httpProvider', function($httpProvider){
-        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=csrf-token]').attr('content');
+        $httpProvider.defaults.headers.common['X-CSRF-Token'] = $('meta[name=vnd.bookmarks.v1]').attr('content');
 
         var interceptor = ['$location', '$rootScope', '$q', function($location, $rootScope, $q) {
             function success(response) {
