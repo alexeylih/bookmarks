@@ -137,5 +137,5 @@ describe('BookmarksCtrl', function() {
 		initController();
 		$scope.removeUrl(0);
 		expect($scope.bookmarks).toEqual([]);
-	})
+	});
 });

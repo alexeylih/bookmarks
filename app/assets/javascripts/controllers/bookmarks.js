@@ -43,6 +43,11 @@ function BookmarksCtrl($scope, $http, $interval) {
 
     $scope.removeUrl = function(bookmarkIndex) {
         var bookmark = $scope.bookmarks[bookmarkIndex];
+        
+        if (bookmark.loadingPromise){
+            $interval.cancel(bookmark.loadingPromise);    
+        }
+        
         $scope.bookmarks.splice(bookmarkIndex, 1);
         deleteBookmarks(bookmark.id);        
     };
