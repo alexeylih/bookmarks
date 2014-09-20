@@ -25,7 +25,6 @@ function BookmarksCtrl($scope, $http, $interval) {
             data: $.param({url: tmpUrlToAdd}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
             .then(function(response){
-
                 var bookmark = response.data;
                 if (bookmark.type == "YoutubeBookmark"){
                     bookmark.loadingPromise = $interval(function() { getYoutubeBookmarkInfo(bookmark.id) }, 1000);
@@ -35,9 +34,8 @@ function BookmarksCtrl($scope, $http, $interval) {
                 $scope.bookmarks.push(bookmark);
 
             }, function(response){
-                // todo: better error handling
-                if (response.data.errors['url'])
-                    alert("Failed to add url, invalid url"); 
+                if (response.status == "422")
+                    alert("Failed to add, url format is invalid"); 
                 else
                     alert("Failed to add url"); 
             })
@@ -82,6 +80,7 @@ function BookmarksCtrl($scope, $http, $interval) {
     };
 
     function getYoutubeBookmarkInfo(id) {
+        console.log(id);
         return $http.get('/api/bookmarks/'+id).then(function (response) {
             var updatedBookmark = response.data;
             if (updatedBookmark.title != ""){

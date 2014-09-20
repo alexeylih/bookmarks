@@ -30,7 +30,7 @@
 						<div ng-if="bookmark.type == 'YoutubeBookmark' && !bookmark.isLoading">
 							<b>{{bookmark.title}}</b>
 							<br />
-							<img src="{{bookmark.thumbnail_url}}">	
+							<img src="{{bookmark.thumbnail_url}}" ng-if="!bookmark.removed">	
 						</div>
 				</td>
 				<td><a ng-click="removeUrl($index)">Remove</a></td>
